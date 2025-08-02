@@ -217,39 +217,35 @@ parameters:
         lookup:
           - key: 0x0000
             value: "OK"
-          - bit: 0
+          - key: 0x1
             value: "DC OverVoltage"
-          - bit: 1
+          - key: 0x2
             value: "DC Bus OverVoltage"
-          - bit: 2
+          - key: 0x4
             value: "DC Bus Uneven Voltage"
-          - bit: 3
+          - key: 0x8
             value: "DC Bus UnderVoltage"
-          - bit: 4
+          - key: 0x10
             value: "DC Bus2 Uneven Voltage"
-          - bit: [2, 4]
-            value: "DC Bus & Bus2 Uneven Voltage"
-          - bit: 5
+          - key: 0x20
             value: "DC A path OverCurrent"
-          - bit: 6
+          - key: 0x40
             value: "DC B path OverCurrent"
-          - bit: 7
+          - key: 0x80
             value: "DC Input Disturbance"
-          - bit: 8
+          - key: 0x100
             value: "Grid OverCurrent"
-          - bit: 9
+          - key: 0x200
             value: "IGBT OverCurrent"
-          - bit: 10
+          - key: 0x400
             value: "Grid Disturbance 2"
-          - bit: 11
+          - key: 0x800
             value: "Arc Self-Test Protection"
-          - bit: 12
+          - key: 0x1000
             value: "Arc Fault Reservation"
-          - bit: 13
+          - key: 0x2000
             value: "Grid Current Sample Abnormality"
-          - bit: [16, 17, 25]
-            value: "Grid phase failure or No Relay Connection"
-          - bit: [16, 20, 23, 24]
+          - key: 0x2030000
             value: "Grid phase failure or No Relay Connection"
           - key: default
             value: Problem
@@ -442,9 +438,6 @@ parameters:
         rule: 1
         registers: [0x003C]
         icon: "mdi:solar-power"
-        validation:
-          dev: 100
-          invalidate_all:
 
       - name: "Today Production 1"
         friendly_name: Today's Production 1
@@ -456,9 +449,6 @@ parameters:
         rule: 1
         registers: [0x0041]
         icon: "mdi:solar-power"
-        validation:
-          dev: 100
-          invalidate_all:
 
       - name: "Today Production 2"
         friendly_name: Today's Production 2
@@ -470,9 +460,6 @@ parameters:
         rule: 1
         registers: [0x0042]
         icon: "mdi:solar-power"
-        validation:
-          dev: 100
-          invalidate_all:
 
       - name: "Today Production 3"
         friendly_name: Today's Production 3
@@ -484,9 +471,6 @@ parameters:
         rule: 1
         registers: [0x0043]
         icon: "mdi:solar-power"
-        validation:
-          dev: 100
-          invalidate_all:
 
       - name: "Today Production 4"
         friendly_name: Today's Production 4
@@ -498,9 +482,6 @@ parameters:
         rule: 1
         registers: [0x0044]
         icon: "mdi:solar-power"
-        validation:
-          dev: 100
-          invalidate_all:
 
       - name: "Total Production"
         persistent:
@@ -715,19 +696,35 @@ parameters:
           min: 0
           max: 2000
 
+      # - name: "Active Power Regulation"
+      #   platform: number
+      #   state_class: "measurement"
+      #   uom: "%"
+      #   rule: 1
+      #   registers: [0x0028]
+      #   configurable:
+      #     min: 0
+      #     max: 120
+      #     step: 0.1
+      #   range:
+      #     min: 0
+      #     max: 1200
+
       - name: "Active Power Regulation"
         platform: number
         state_class: "measurement"
         uom: "%"
         rule: 1
-        registers: [0x0028]
+        scale: 0.01
+        registers: [0x0035]
+        mode: "box"
         configurable:
           min: 0
-          max: 120
+          max: 100
           step: 0.1
         range:
           min: 0
-          max: 1200
+          max: 10000
 
       - name: "Island Protection"
         platform: "switch"
